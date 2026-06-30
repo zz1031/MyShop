@@ -1,0 +1,238 @@
+﻿<Window x:Class="MyShop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyShop"
+        mc:Ignorable="d"
+        Title="收银台" Height="555" Width="888"
+        Background="{DynamicResource backColor8}">
+
+    <Window.Resources>
+
+        <ResourceDictionary>
+            <!--可以从Dictionary1.xaml中查找所有的key作为Command参数 -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="InterfaceParam.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <TabControl  TabStripPlacement="Left" Background="{StaticResource backColor_Transparent}" Margin="-2,0,0,0">
+
+
+        <TabItem Header="收银" Style="{StaticResource LabelStyle_main}">
+            <Grid   Style="{StaticResource GridStyle_main}">
+                <Grid>
+
+                    <Label  Content="收银台" VerticalAlignment="Top" 
+                            HorizontalAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            FontFamily="{StaticResource font1}" FontWeight="ExtraBold"
+                            FontSize="30"
+                            Height="70" 
+                             MouseDown="Label_MouseDown_TEST"
+                            >
+
+                    </Label>
+
+                    <Grid   Style="{StaticResource GridStyle_Sub}">
+                        <!-- 左面板 -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <!-- 固定宽度 -->
+                            <ColumnDefinition Width="Auto"/>
+                            <!-- 分割线占位 -->
+                            <ColumnDefinition Width="2*"/>
+                            <!-- 剩余宽度 -->
+                        </Grid.ColumnDefinitions>
+
+                        <!-- 左版面 -->
+                        <Border Grid.Column="0" Background="{StaticResource backColor1}" CornerRadius="10" ClipToBounds="True">
+                            <Grid >
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" >
+                                    <Button   Style="{StaticResource ButtonStyle1}" Content="选择/新增会员"
+                                              Height="50"
+                                              Margin="20,20,20,20">
+
+                                    </Button>
+                                </Grid>
+
+                                <ListBox Grid.Row="1" x:Name="ButtonListBox"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     BorderBrush="#DDD"
+                                     BorderThickness="0"
+                                     Background="{StaticResource backColor_Transparent}"
+                                     ClipToBounds="True">
+                                    <!-- 布局面板：从上到下排列 -->
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+
+                                    <!-- 每个按钮的样式模板 -->
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <!-- 按钮宽度和容器相同，高度自定义 -->
+                                            <Button Content="{Binding ButtonText}"
+                            Height="{Binding ButtonHeight}"
+                            FontSize="{Binding FontSize}"
+                            Background="{Binding ButtonColor}"
+                            Foreground="White"
+                            Margin="5"
+                            Padding="10,5"
+                            HorizontalAlignment="Stretch"
+                            Cursor="Hand"
+                            
+                            Tag="{Binding Id}"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </Border>
+
+                        <!-- 分割线 -->
+                        <GridSplitter Grid.Column="1" 
+                  Width="5" 
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Stretch"
+                  Background="{StaticResource backColor2}"/>
+
+                        <!-- 右版面 -->
+                        <Border Grid.Column="2" Background="{StaticResource backColor1}" CornerRadius="10">
+                            <Grid Margin="10">
+                                <!-- 行和列定义 -->
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <!-- 搜索栏 -->
+                                    <RowDefinition Height="*"/>
+                                    <!-- 主要内容 -->
+                                    <RowDefinition Height="Auto"/>
+                                    <!-- 底部状态栏 -->
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <!-- 左列：动态按钮 -->
+                                    <ColumnDefinition Width="Auto"/>
+                                    <!-- 右列：固定按钮 -->
+                                </Grid.ColumnDefinitions>
+
+                                <!-- ========== 第0行：搜索栏（跨两列） ========== -->
+                                <Border Grid.Row="0" Grid.ColumnSpan="2"
+            Padding="10" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox x:Name="SearchTextBox" Grid.Column="0"  Height="50"    FontSize="16"     Padding="10,5"                     
+                                                 Style="{StaticResource ClearableTextBox}"/>
+
+                                    </Grid>
+                                </Border>
+
+                                <!-- ========== 第1行左列：动态按钮（2列多行） ========== -->
+                                <ScrollViewer Grid.Row="1" Grid.Column="0"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled"
+                  Margin="0,0,10,0">
+
+                                    <WrapPanel x:Name="DynamicButtonsPanel"
+                   Orientation="Horizontal"/>
+                                </ScrollViewer>
+
+                                <!-- ========== 第1行右列：固定按钮（垂直排列） ========== -->
+                                <Grid Name="StackPane_ProductCategory" Grid.Row="1" Grid.Column="1" Margin="0,0,-10,0"
+                            Width="150" Background="{StaticResource backColor11}" >
+                                    <ScrollViewer x:Name="scrList" Margin="0" VerticalScrollBarVisibility="Visible" Height="Auto" CanContentScroll="True" Style="{StaticResource for_scrollviewer}">
+                                        <TabControl Name="TabControl_ProductCategory" 
+                                                TabStripPlacement="Left" BorderThickness="0" Padding="0" Margin="-5,-3,0,0"
+                                               HorizontalContentAlignment="Left"
+                                                Background="{StaticResource backColor3}" 
+                                                >
+
+
+
+
+                                            <TabItem Header="全部商品" Style="{StaticResource LableStyle_sub}" Margin="0,0,0,0" ></TabItem>
+
+                                        </TabControl>
+                                    </ScrollViewer>
+                                    <!--<Border Height="1" Background="#DDD" Margin="0,10"/>-->
+
+                                </Grid>
+
+                                <!-- ========== 第2行：底部状态栏（跨两列） ========== -->
+                            </Grid>
+
+
+
+                        </Border>
+
+
+
+
+
+
+                    </Grid>
+
+                    <Grid>
+                        <!-- 行定义 -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <!-- 内容区域：占满剩余 -->
+                            <RowDefinition Height="Auto" MinHeight="67.76"/>
+                            <!-- 底部按钮：自动高度 -->
+                        </Grid.RowDefinitions>
+
+                        <!-- ===== 主内容区域 ===== -->
+                        <Grid Grid.Row="0">
+                            <!-- 你的主内容 -->
+                        </Grid>
+
+                        <!-- ===== 底部按钮 ===== -->
+                        <Grid Grid.Row="1" 
+                    Margin="0,8"  >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Content="挂单"  Height="60" Margin="5,0,5,8" Style="{StaticResource ButtonStyle2}"/>
+                            <Button Grid.Column="1" Content="结账" Height="60" Margin="5,0,5,8" Style="{StaticResource ButtonStyle2}"  Background="{StaticResource backColor3}"/>
+                            <Button Grid.Column="2" Content="优惠"  Height="60" Margin="5,0,5,8" Style="{StaticResource ButtonStyle2}"/>
+                            <Button Grid.Column="3" Content="抹零"  Height="60" Margin="5,0,5,8" Style="{StaticResource ButtonStyle2}"/>
+                            <Button Grid.Column="4" Content="额外费用"  Height="60" Margin="5,0,5,8" Style="{StaticResource ButtonStyle2}"/>
+                            <Button Grid.Column="5" Content="开钱箱"  Height="60" Margin="5,0,5,8" Style="{StaticResource ButtonStyle2}"/>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+
+        </TabItem>
+        <TabItem Header="订单" Style="{StaticResource LabelStyle_main}">
+            <Grid Background="#FFE5E5E5"/>
+        </TabItem>
+        <TabItem Header="shangp" Style="{StaticResource LabelStyle_main}">
+            <Grid   Style="{StaticResource GridStyle_main}">
+                <Grid   Style="{StaticResource GridStyle_Sub}">
+                </Grid>
+            </Grid>
+
+        </TabItem>
+
+    </TabControl>
+
+</Window>
