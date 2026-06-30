@@ -30,16 +30,7 @@ namespace MyShop
         public void Label_MouseDown_TEST(object sender, MouseButtonEventArgs e)
         {
             string iniPath =  "proaaaq.ini";
-            GetConfig.INI_R_W("sec111", "key222", "value333", iniPath);
-            //a++;
-            //AddTabItem("test"+a);
-            //GetConfig.AddOrUpdateConfig_xml("proaaaconfig.xml", 1, "test1" );
-            //GetConfig.AddOrUpdateConfig_xml("proaaaconfig.xml", 2, "test2");
-            //GetConfig.AddOrUpdateConfig_xml("proaaaconfig.xml", 3, "test3");
-
-            //GetConfig.AddOrUpdateConfig_xml("probbbconfig.xml", 1, "test1");
-            //GetConfig.AddOrUpdateConfig_xml("probbbconfig.xml", 2, "testb");
-            //GetConfig.AddOrUpdateConfig_xml("probbbconfig.xml", 11, "testc");
+            GetConfig.INI_R_W(true, iniPath, "sec111", "key223", "value355");
         }
 
    

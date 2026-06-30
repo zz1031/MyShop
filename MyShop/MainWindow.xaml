@@ -225,9 +225,10 @@
         <TabItem Header="订单" Style="{StaticResource LabelStyle_main}">
             <Grid Background="#FFE5E5E5"/>
         </TabItem>
-        <TabItem Header="shangp" Style="{StaticResource LabelStyle_main}">
+        <TabItem Header="商品" Style="{StaticResource LabelStyle_main}">
             <Grid   Style="{StaticResource GridStyle_main}">
                 <Grid   Style="{StaticResource GridStyle_Sub}">
+                    
                 </Grid>
             </Grid>
 
