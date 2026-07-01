@@ -12,10 +12,13 @@
     <RoutedUICommand x:Key="6" Text="添加商品"/>
     <RoutedUICommand x:Key="7" Text="添加商品"/>
     <RoutedUICommand x:Key="8" Text="添加商品"/>
-    <RoutedUICommand x:Key="9" Text="添加商品"/>
+    
+    
+    <RoutedUICommand x:Key="AddProductWindow_Save" Text="添加商品界面_保存"/>
+    <RoutedUICommand x:Key="AddProductWindow_Cancel" Text="添加商品界面_取消"/>
     <!--#endregion-->
-    
-    
+
+
     <!--#region 通用属性-->
     <!--<RoutedUICommand x:Key="myCmd1" Text="字典测试"/>
     <RoutedUICommand x:Key="myCmd2" Text="开关测试"/>
@@ -116,7 +119,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="FontSize" Value="25"/>
@@ -125,7 +128,7 @@
         </Style.Triggers>
 
     </Style>
-    
+
     <!-- 清空按钮样式 -->
     <Style x:Key="ClearBtnStyle1" TargetType="Button">
         <Setter Property="Width" Value="20"/>
@@ -293,7 +296,7 @@
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="BorderBrush" Value="{StaticResource backColor_Transparent}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
@@ -312,7 +315,7 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                       
+
                         <!-- ✅ 选中状态 -->
                         <Trigger Property="IsSelected" Value="True">
                             <Setter  Property="FontWeight" Value="ExtraBlack"/>
@@ -350,6 +353,30 @@
     <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{StaticResource backColor11}" />
         <Setter Property="Text" Value="此处输入编号"/>
+    </Style>
+
+    <!--添加商品页面的文本框-->
+    <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}" >
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Text" Value="此处输入内容"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Bd"
+                              Background="{StaticResource backColor1}"
+                              BorderBrush="{StaticResource backColor6}"
+                                 
+                              BorderThickness="2,2,2,2"
+                              CornerRadius="10,10,10,10">
+                        <ScrollViewer x:Name="PART_ContentHost" 
+                                        Margin="2"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- 带清空按钮的 TextBox 模板 -->
@@ -391,7 +418,7 @@
                                     VerticalAlignment="Center"
                                     Margin="0,0,15,0"
                                     Visibility="Visible">
-                              
+
 
                             </Button>
 
@@ -410,7 +437,7 @@
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
                             <Setter TargetName="PART_ClearButton" Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
-                        
+
                         <!-- 鼠标悬停高亮 -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Border" Property="BorderBrush" Value="#66A3D9"/>
@@ -433,12 +460,12 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!--#endregion-->
 
     <!--#region 滚动条-->
-    
- 
+
+
     <!--滚动条-->
 
     <!-- ScrollViewer 滚动条 -->

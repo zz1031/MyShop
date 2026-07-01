@@ -20,7 +20,7 @@
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource AddProduct}"
                         Executed="AddProduct1" CanExecute="JudgeEnable"/>
-        
+
 
     </Window.CommandBindings>
 
@@ -253,13 +253,15 @@
                                     <Grid Grid.Row="0"  Height="100" VerticalAlignment="Top">
                                         <Grid Grid.Row="0" Margin="0,0,0,0"  >
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="3*"/>
-                                                <ColumnDefinition Width="1*"/>
-                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="42*"/>
+                                                <ColumnDefinition Width="124*"/>
+                                                <ColumnDefinition Width="309*"/>
+                                                <ColumnDefinition Width="158*"/>
+                                                <ColumnDefinition Width="158*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0"   Height="60" Margin="5,0,20,8" Style="{StaticResource ClearableTextBox}"/>
-                                            <Button Grid.Column="1" Content="暂无" Height="60" Margin="10,0,20,8" Style="{StaticResource ButtonStyle2}" PreviewMouseDown="Label_MouseDown_TEST"/>
-                                            <Button Grid.Column="2" Content="添加商品"  Height="60" Margin="10,0,5,8" 
+                                            <TextBox Grid.Column="0"   Height="60" Margin="5,16,20,24" Style="{StaticResource ClearableTextBox}" Grid.ColumnSpan="3"/>
+                                            <Button Grid.Column="3" Content="暂无" Height="60" Margin="10,16,20,24" Style="{StaticResource ButtonStyle2}" PreviewMouseDown="Label_MouseDown_TEST"/>
+                                            <Button Grid.Column="4" Content="添加商品"  Height="60" Margin="10,16,5,24" 
                                                     Style="{StaticResource ButtonStyle2}" Background="{StaticResource backColor3}"
                                                     Command="{StaticResource AddProduct}"/>
                                         </Grid>

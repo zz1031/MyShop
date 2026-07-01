@@ -11,8 +11,6 @@ namespace MyShop.ShopData
         public static Dictionary<int, string> productTypeDict = new Dictionary<int, string>();
         public static Dictionary<int, string> productUnitDict = new Dictionary<int, string>();
 
-
-
         public struct ProductInfo
         {
             /// <summary>

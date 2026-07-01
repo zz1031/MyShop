@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MyShop.Myxaml;
 using MyShop.ShopData;
 using MySql.Data.MySqlClient;
 
@@ -109,7 +110,16 @@ namespace MyShop
 
         private void AddProduct1(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("添加商品1");
+            // 创建子窗口实例
+            var addWindow = new AddProductWindow();
+            // 设置拥有者，防止弹窗跑到主窗口后面
+            addWindow.Owner = this;
+
+            addWindow.ShowDialog(); //= 模态弹出（必须关闭这个才能操作主窗口）
+            //// 如果返回 true，表示用户点了“确认保存”
+            //if (addWindow.ShowDialog() == true)
+            //{
+            //}
         }
         private void JudgeEnable(object sender,  CanExecuteRoutedEventArgs e)
         {
