@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -112,6 +113,7 @@ namespace MyShop.ShopData
                 }
             }
             catch { }
+
             using (MySqlCommand cmd = new MySqlCommand(str_sql, conn))
             {
                 try
@@ -127,9 +129,40 @@ namespace MyShop.ShopData
                     conn.Close();
                 }
             }
+
             return result.ToString();
         }
-        
+        public string ExcuteMysql(string str_sql, out DataSet ds)
+        {
+            int result = 0;
+            ds = new DataSet();
+            try
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+            }
+            catch { }
+
+            try
+            {
+                using (MySqlDataAdapter da = new MySqlDataAdapter(str_sql, conn))
+                {
+                    da.Fill(ds);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return result.ToString();
+        }
 
         /// <summary>
         /// 创建数据库
@@ -187,7 +220,7 @@ namespace MyShop.ShopData
         /// <returns></returns>
         public string CreatDatatable(string tableName, string[] colsName, string[] colType)
         {
-            
+
             if (colsName.Length != colType.Length)
             {
                 return "表头名和表头类型数量不一致";
@@ -195,11 +228,11 @@ namespace MyShop.ShopData
             string ret = "0";
 
             string query = $"create table IF NOT EXISTS `{tableName}` (";
-            for (int i = 0; i < colsName.Length-1; i++)
+            for (int i = 0; i < colsName.Length - 1; i++)
             {
-                query += $"{colsName[i]} {colType[i]},"; 
+                query += $"{colsName[i]} {colType[i]},";
             }
-            query += $"{colsName[colsName.Length-1]} {colType[colsName.Length-1]})";
+            query += $"{colsName[colsName.Length - 1]} {colType[colsName.Length - 1]})";
 
             ret = ExcuteMysql(query);
 
@@ -211,9 +244,9 @@ namespace MyShop.ShopData
         /// <param name="tableName">表名</param>
         /// <param name="values">插入值</param>
         /// <returns></returns>
-        public string InsertDataToTable(string tableName, List<string> values )
+        public string InsertDataToTable(string tableName, List<string> values)
         {
-            
+
             string ret = "0";
 
             string query = $"insert into {tableName} values (";
@@ -222,7 +255,7 @@ namespace MyShop.ShopData
             {
                 query += $"'{values[i]}',";
             }
-            query += $"'{values[values.Count-1]}')";
+            query += $"'{values[values.Count - 1]}')";
 
             ret = ExcuteMysql(query);
 
@@ -259,8 +292,14 @@ namespace MyShop.ShopData
 
             return ret;
         }
-
-        public string DeleteDataToTable(string tableName, List<string> conditionStr,string judge="and")
+        /// <summary>
+        /// 删除数据在表中
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <param name="conditionStr">判断条件,例：name="abc"</param>
+        /// <param name="judge">条件是and或or</param>
+        /// <returns></returns>
+        public string DeleteDataToTable(string tableName, List<string> conditionStr, string judge = "and")
         {
 
             string ret = "0";
@@ -274,6 +313,34 @@ namespace MyShop.ShopData
             query += $"{conditionStr[conditionStr.Count - 1]}";
 
             ret = ExcuteMysql(query);
+
+            return ret;
+        }
+
+
+        public string SelectDataFromTable(string tableName, out DataSet ds, List<string> items, List<string> conditionStr, string judge = "and")
+        {
+
+            string ret = "0";
+
+            //string query = $"SELECT 字段1,[字段2],[...] FROM 表名 WHERE 条件列表;";
+
+            string query = $"SELECT ";
+
+            for (int i = 0; i < items.Count - 1; i++)
+            {
+                query += $"{items[i]},";
+            }
+            query += $"{items[items.Count - 1]} from {tableName} where ";
+
+            for (int i = 0; i < conditionStr.Count - 1; i++)
+            {
+                query += $"{conditionStr[i]} {judge} ";
+            }
+            query += $"{conditionStr[conditionStr.Count - 1]}";
+
+            ds = new DataSet();
+            ret = ExcuteMysql(query, out ds);
 
             return ret;
         }

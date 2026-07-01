@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Policy;
@@ -44,34 +45,51 @@ namespace MyShop
         int a = 0;
         public void Label_MouseDown_TEST(object sender, MouseButtonEventArgs e)
         {
-            #region
-            //MySqlCtrl.Instance.Init("localhost", "3306", "root", "1234", "abab12");
-            //MySqlCtrl.Instance.OpenMysql();
-            //MySqlCtrl.Instance.CreateDatabase("myTestDatabase");
-            //MySqlCtrl.Instance.UseDatabase("myTestDatabase");
-            //MySqlCtrl.Instance.CreatDatatable("myTestTable", new string[] { "id", "name", "age" }, new string[] { "INT PRIMARY KEY AUTO_INCREMENT", "TEXT", "INT" });
-            //MySqlCtrl.Instance.InsertDataToTable("myTestTable", new List<string>(){ "3", "zzasd", "826" });         
-            //MySqlCtrl.Instance.InsertDataToTable("myTestTable", new List<string> { "0", "zza1", "827" });
-            //MySqlCtrl.Instance.InsertDataToTable("myTestTable", new List<string> { "0", "zza2", "828" });
-            //MySqlCtrl.Instance.InsertDataToTable("myTestTable", new List<string> { "0", "zza3", "829" });
-            //MySqlCtrl.Instance.UpdateDataToTable("myTestTable", new List<string> { "age=222" }, new List<string> { "id>6" });
-            //MySqlCtrl.Instance.UpdateDataToTable("myTestTable", new List<string> { "age=333","name=\"zz33zz\"" }, new List<string> { "id<5" ,"id>2"});
-            //MySqlCtrl.Instance.ExcuteMysql("CREATE DATABASE `" + "myTestDatabase" + "`;");
-            //MySqlCtrl.Instance.DeleteDataToTable("myTestTable", new List<string> { "id<5", "id>7" }, "or");
+            #region mysql
+            if (false)
+            {
+
+                MySqlCtrl.Instance.Init("localhost", "3306", "root", "1234", "abab12");
+                MySqlCtrl.Instance.OpenMysql();
+                MySqlCtrl.Instance.CreateDatabase("myTestDatabase");
+                MySqlCtrl.Instance.UseDatabase("myTestDatabase");
+
+                MySqlCtrl.Instance.CreatDatatable("myTestTable", new string[] { "id", "name", "age" }, new string[] { "INT PRIMARY KEY AUTO_INCREMENT", "TEXT", "INT" });
+                MySqlCtrl.Instance.InsertDataToTable("myTestTable", new List<string>() { "3", "zzasd", "826" });
+                MySqlCtrl.Instance.InsertDataToTable("myTestTable", new List<string> { "0", "zza1", "827" });
+                MySqlCtrl.Instance.InsertDataToTable("myTestTable", new List<string> { "0", "zza2", "828" });
+                MySqlCtrl.Instance.InsertDataToTable("myTestTable", new List<string> { "0", "zza3", "829" });
+                MySqlCtrl.Instance.UpdateDataToTable("myTestTable", new List<string> { "age=222" }, new List<string> { "id>6" });
+                MySqlCtrl.Instance.UpdateDataToTable("myTestTable", new List<string> { "age=333", "name=\"zz33zz\"" }, new List<string> { "id<5", "id>2" });
+               
+                MySqlCtrl.Instance.ExcuteMysql("CREATE DATABASE `" + "myTestDatabase" + "`;");
+                MySqlCtrl.Instance.DeleteDataToTable("myTestTable", new List<string> { "id<5", "id>7" }, "or");
+                DataSet dataSet = new DataSet();
+                MySqlCtrl.Instance.SelectDataFromTable("myTestTable", out dataSet, new List<string>() { "id", "name" }, new List<string> { "id>5", "id>2" });
+            }
             #endregion
-            #region
-            //string iniPath =  "proaaaq.ini";
-            //GetConfig.INI_R_W(true, iniPath, "sec111", "key223", "value355");
-            //AddTabItem("123" + a);
+            #region 配置文件测试
+            if (false)
+            {
+
+                //string iniPath =  "proaaaq.ini";
+                //GetConfig.INI_R_W(true, iniPath, "sec111", "key223", "value355");
+                
+            }
             #endregion
-            #region
-            //ProductList.Add(new Product
-            //{
-            //    ImageUrl = "\\Resources\\productPics\\cywl.png",  // 图片路径   
-            //    Name = "示例"+a,
-            //        Price =a,
-            //    Stock = 50-a
-            //});
+            #region 动态添加测试
+            if (false)
+            {
+                //ProductList.Add(new Product
+                //{
+                //    ImageUrl = "\\Resources\\productPics\\cywl.png",  // 图片路径   
+                //    Name = "示例"+a,
+                //        Price =a,
+                //    Stock = 50-a
+                //});
+
+                //AddTabItem("123" + a);
+            }
             #endregion
         }
 
