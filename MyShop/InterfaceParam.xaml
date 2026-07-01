@@ -22,7 +22,7 @@
     <!--通用字体颜色-->
     <SolidColorBrush x:Key="FontColor" Color="White"/>
     <SolidColorBrush x:Key="FontColor2" Color="Black"/>
-
+    <SolidColorBrush x:Key="FontColor3" Color="#68828A"/>
 
     <!--背景颜色-->
     <SolidColorBrush x:Key="backColor1" Color="#FFFFFF"/>
@@ -256,6 +256,54 @@
                         <!-- ✅ 选中状态 -->
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource backColor10}"/>
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource backColor9}"/>
+
+                        </Trigger>
+
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!--左侧标签栏-->
+    <Style x:Key="LabelStyle_ShangPing" TargetType="{x:Type TabItem}">
+        <!-- 手型 -->
+        <Setter Property="Background" Value="{StaticResource backColor1}" />
+        <Setter Property="Foreground" Value="{StaticResource FontColor3}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontFamily" Value="{StaticResource font1}" />
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="BorderBrush" Value="{StaticResource backColor_Transparent}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border x:Name="Bd"
+                      Background="{StaticResource backColor_Transparent}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                         
+                      BorderThickness="0,0,0,4"
+                      Padding="15,5"
+                      CornerRadius="0,0,2,2">
+                        <ContentPresenter x:Name="Content"
+                                    ContentSource="Header"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    RecognizesAccessKey="True"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                       
+                        <!-- ✅ 选中状态 -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter  Property="FontWeight" Value="ExtraBlack"/>
+                            <Setter  Property="FontSize" Value="24"/>
+                            <Setter  Property="Foreground" Value="{StaticResource FontColor2}"/>
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource backColor9}"/>
 
                         </Trigger>

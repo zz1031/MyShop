@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,37 +16,51 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MyShop.ShopData;
+using MySql.Data.MySqlClient;
 
 namespace MyShop
 {
+
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// 商品页面的商品列表
+        /// </summary>
+        public ObservableCollection<Product> ProductList { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            ProductList = new ObservableCollection<Product>();
+
+            // 绑定到 ListView（在 XAML 中已完成）
+            // ListView 的 ItemsSource="{Binding ProductList}" 
+            // 或者在后台直接赋值：MyListView.ItemsSource = ProductList;
+
+            DataContext = this;
         }
         int a = 0;
         public void Label_MouseDown_TEST(object sender, MouseButtonEventArgs e)
         {
-            string iniPath =  "proaaaq.ini";
-            GetConfig.INI_R_W(true, iniPath, "sec111", "key223", "value355");
+            MySqlCtrl.Instance.Init("localhost", "3306", "root", "1234", "abab12");
+            MySqlCtrl.Instance.OpenMysql();
+            MySqlCtrl.Instance.ExcuteMysql("DROP database " + "myTestDatabase2");
+            //MySqlCtrl.Instance.ExcuteMysql("CREATE DATABASE `" + "myTestDatabase" + "`;");
+            //string iniPath =  "proaaaq.ini";
+            //GetConfig.INI_R_W(true, iniPath, "sec111", "key223", "value355");
+            //AddTabItem("123" + a);
+
+            //ProductList.Add(new Product
+            //{
+            //    ImageUrl = "\\Resources\\productPics\\cywl.png",  // 图片路径   
+            //    Name = "示例"+a,
+            //        Price =a,
+            //    Stock = 50-a
+            //});
         }
-
-   
-        public void AddButton(string text)
-        {
-            // 创建新的 TabItem
-            TabItem newTab = new TabItem();
-
-            // 应用 Style（从资源中获取）
-            newTab.Style = (Style)this.Resources["LableStyle_sub"];
-
-            newTab.Header= text;
-           
-        }
+       
         private void AddTabItem(string header)
         {
             // 1. 创建新的 TabItem
@@ -54,21 +70,35 @@ namespace MyShop
             newTab.Header = header;
 
             // 或者用 FindResource
-             newTab.Style = (Style)FindResource("LableStyle_sub");
+            newTab.Style = (Style)FindResource("LableStyle_sub");
 
             // 4. 添加到 TabControl
             TabControl_ProductCategory.Items.Add(newTab);
         }
 
-    }
-    public class ButtonItem
-    {
-        public string Text { get; set; }
-        public ICommand Command { get; set; }
-        public object CommandParameter { get; set; }
-        public bool IsEnabled { get; set; } = true;
 
-        // 如果需要不同颜色，用数据属性，不用样式
-        public string ButtonType { get; set; } = "Default";  // Default, Primary, Danger
     }
+
+
+    public class Product
+    {
+        /// <summary>
+        /// 商品名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 图片路径，要在Resource文件夹下
+        /// </summary>
+        public string ImageUrl { get; set; }
+        /// <summary>
+        /// 商品价格
+        /// </summary>
+        public double Price { get; set; }
+        /// <summary>
+        /// 库存数量
+        /// </summary>
+        public int Stock { get; set; }
+    }
+
+
 }

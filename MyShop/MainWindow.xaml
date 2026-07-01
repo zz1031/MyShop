@@ -24,6 +24,10 @@
         <TabItem Header="收银" Style="{StaticResource LabelStyle_main}">
             <Grid   Style="{StaticResource GridStyle_main}">
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32*"/>
+                        <RowDefinition Height="57*"/>
+                    </Grid.RowDefinitions>
 
                     <Label  Content="收银台" VerticalAlignment="Top" 
                             HorizontalAlignment="Center" 
@@ -36,7 +40,7 @@
 
                     </Label>
 
-                    <Grid   Style="{StaticResource GridStyle_Sub}">
+                    <Grid   Style="{StaticResource GridStyle_Sub}" Grid.RowSpan="2">
                         <!-- 左面板 -->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -183,7 +187,7 @@
 
                     </Grid>
 
-                    <Grid>
+                    <Grid Grid.RowSpan="2">
                         <!-- 行定义 -->
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -227,8 +231,68 @@
         </TabItem>
         <TabItem Header="商品" Style="{StaticResource LabelStyle_main}">
             <Grid   Style="{StaticResource GridStyle_main}">
-                <Grid   Style="{StaticResource GridStyle_Sub}">
-                    
+                <Grid>
+                    <TabControl TabStripPlacement="Top" Background="{StaticResource backColor_Transparent}">
+
+                        <TabItem Header="列表" Style="{StaticResource  LabelStyle_ShangPing}" >
+                            <Grid>
+
+                                <Grid Grid.Row="2" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+
+                                    <Grid Grid.Row="0"  Height="100" VerticalAlignment="Top">
+                                        <Grid Grid.Row="0" Margin="0,0,0,0"  >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0"   Height="60" Margin="5,0,20,8" Style="{StaticResource ClearableTextBox}"/>
+                                            <Button Grid.Column="1" Content="暂无" Height="60" Margin="10,0,20,8" Style="{StaticResource ButtonStyle2}" PreviewMouseDown="Label_MouseDown_TEST"/>
+                                            <Button Grid.Column="2" Content="添加商品"  Height="60" Margin="10,0,5,8" Style="{StaticResource ButtonStyle2}" Background="{StaticResource backColor3}"/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <ListView ItemsSource="{Binding ProductList}">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <!-- 图片列（模板列） -->
+                                                    <GridViewColumn Header="图片" Width="80">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Image Source="{Binding ImageUrl}" Width="60" Height="60" Stretch="Uniform"/>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+
+                                                    </GridViewColumn>
+
+                                                    <!-- 文字列直接绑定 -->
+                                                    <GridViewColumn Header="商品名称" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                                                    <GridViewColumn Header="价格" DisplayMemberBinding="{Binding Price, StringFormat=¥{0:F2}}" Width="100"/>
+                                                    <GridViewColumn Header="库存" DisplayMemberBinding="{Binding Stock}" Width="80"/>
+
+
+                                                </GridView>
+
+                                            </ListView.View>
+
+                                        </ListView>
+
+                                    </Grid>
+                                </Grid>
+
+
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="盘点" Style="{StaticResource  LabelStyle_ShangPing}">
+                        </TabItem>
+                    </TabControl>
+
+
                 </Grid>
             </Grid>
 
