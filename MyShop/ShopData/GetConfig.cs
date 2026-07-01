@@ -22,6 +22,7 @@ namespace MyShop.ShopData
 
     public class GetConfig
     {
+        static  string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         /// <summary>
         /// ini文件读写方法
         /// </summary>
@@ -40,7 +41,7 @@ namespace MyShop.ShopData
 
                 if (!fileName.Contains(AppDomain.CurrentDomain.BaseDirectory))
                 {
-                    fileName = AppDomain.CurrentDomain.BaseDirectory + fileName;
+                    fileName = Path.Combine(appDataPath, fileName);
                 }
                 // 1. 读取INI文件
                 var parser = new FileIniDataParser();
@@ -97,7 +98,7 @@ namespace MyShop.ShopData
             ////写xml
             if (!fileName.Contains(AppDomain.CurrentDomain.BaseDirectory))
             {
-                fileName = AppDomain.CurrentDomain.BaseDirectory + fileName;
+                fileName = Path.Combine(appDataPath, fileName);
             }
             XmlInfo xmlInfo1 = new XmlInfo()
             {
@@ -138,22 +139,43 @@ namespace MyShop.ShopData
             public string enName;
 
         }
-        public static void CSV_R_W(bool IsWrite, string fileName, string sectionName = null, string key = null, string value = null)
+        public static StreamReader CSV_R_W(bool IsWrite, string fileName, List<string> strs)
         {
+            StreamReader sr;
+            if (!fileName.Contains(".csv"))
+            {
+                fileName += ".csv";
+            }
             ////写csv
-            if (!fileName.Contains(AppDomain.CurrentDomain.BaseDirectory))
+            if (!fileName.Contains(appDataPath))
             {
-                fileName = AppDomain.CurrentDomain.BaseDirectory + fileName;
+                fileName = Path.Combine(appDataPath, fileName);
             }
-            using (StreamWriter sw = new StreamWriter(fileName, true))
+
+            if (!IsWrite)
             {
-                sw.WriteLine("123,汉字,abc");
-                sw.WriteLine("123汉字abc");
+                using ( sr = new StreamReader(fileName))
+                {
+                    return sr;
+                }
             }
-            using (StreamReader sr = new StreamReader(fileName))
+            else
             {
-                Console.WriteLine(sr.ReadToEnd());
+
+               
+                
+                using (StreamWriter sw = new StreamWriter(fileName, true))
+                {
+                    
+                    for (int i = 0; i < strs.Count; i++)
+                    {
+                        sw.WriteLine(strs[i]);
+                    }
+                }
+                return  StreamReader.Null;
             }
+           
+            
         }
         public static void EXCEL_R_W(bool IsWrite, string fileName, string sectionName = null, string key = null, string value = null)
         {
