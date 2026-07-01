@@ -2,6 +2,20 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:MyShop.Converters"
                     >
+
+    <!--#region 指令-->
+    <RoutedUICommand x:Key="AddProduct" Text="新增商品"/>
+    <RoutedUICommand x:Key="2" Text="删除商品"/>
+    <RoutedUICommand x:Key="3" Text="添加商品"/>
+    <RoutedUICommand x:Key="4" Text="添加商品"/>
+    <RoutedUICommand x:Key="5" Text="添加商品"/>
+    <RoutedUICommand x:Key="6" Text="添加商品"/>
+    <RoutedUICommand x:Key="7" Text="添加商品"/>
+    <RoutedUICommand x:Key="8" Text="添加商品"/>
+    <RoutedUICommand x:Key="9" Text="添加商品"/>
+    <!--#endregion-->
+    
+    
     <!--#region 通用属性-->
     <!--<RoutedUICommand x:Key="myCmd1" Text="字典测试"/>
     <RoutedUICommand x:Key="myCmd2" Text="开关测试"/>

@@ -17,6 +17,12 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource AddProduct}"
+                        Executed="AddProduct1" CanExecute="JudgeEnable"/>
+        
+
+    </Window.CommandBindings>
 
     <TabControl  TabStripPlacement="Left" Background="{StaticResource backColor_Transparent}" Margin="-2,0,0,0">
 
@@ -253,7 +259,9 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBox Grid.Column="0"   Height="60" Margin="5,0,20,8" Style="{StaticResource ClearableTextBox}"/>
                                             <Button Grid.Column="1" Content="暂无" Height="60" Margin="10,0,20,8" Style="{StaticResource ButtonStyle2}" PreviewMouseDown="Label_MouseDown_TEST"/>
-                                            <Button Grid.Column="2" Content="添加商品"  Height="60" Margin="10,0,5,8" Style="{StaticResource ButtonStyle2}" Background="{StaticResource backColor3}"/>
+                                            <Button Grid.Column="2" Content="添加商品"  Height="60" Margin="10,0,5,8" 
+                                                    Style="{StaticResource ButtonStyle2}" Background="{StaticResource backColor3}"
+                                                    Command="{StaticResource AddProduct}"/>
                                         </Grid>
                                     </Grid>
                                     <Grid Grid.Row="1">

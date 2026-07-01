@@ -35,13 +35,9 @@ namespace MyShop
         {
             InitializeComponent();
             ProductList = new ObservableCollection<Product>();
-
-            // 绑定到 ListView（在 XAML 中已完成）
-            // ListView 的 ItemsSource="{Binding ProductList}" 
-            // 或者在后台直接赋值：MyListView.ItemsSource = ProductList;
-
             DataContext = this;
         }
+        #region
         int a = 0;
         public void Label_MouseDown_TEST(object sender, MouseButtonEventArgs e)
         {
@@ -107,8 +103,18 @@ namespace MyShop
             // 4. 添加到 TabControl
             TabControl_ProductCategory.Items.Add(newTab);
         }
+        #endregion
 
 
+
+        private void AddProduct1(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("添加商品1");
+        }
+        private void JudgeEnable(object sender,  CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
     }
 
 
