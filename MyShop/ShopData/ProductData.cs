@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,6 +13,10 @@ namespace MyShop.ShopData
     {
         public static Dictionary<int, string> productTypeDict = new Dictionary<int, string>();
         public static Dictionary<int, string> productUnitDict = new Dictionary<int, string>();
+        /// <summary>
+        /// 产品清单文件路径
+        /// </summary>
+        public static string appDataPath =Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"MyShop");
 
         public struct ProductInfo
         {
@@ -142,6 +147,12 @@ namespace MyShop.ShopData
             }
             return list;
         }
+        /// <summary>
+        /// 将单个ProductInfo转换为字符串列表，每个字段用逗号分隔
+        /// </summary>
+        /// <param name="product"></param>
+        /// <param name="IsSetHeader"></param>
+        /// <returns></returns>
         public static List<string> ConvertToStrList(ProductInfo product, bool IsSetHeader)
         {
 
@@ -165,13 +176,27 @@ namespace MyShop.ShopData
             
             return list;
         }
-
+        /// <summary>
+        /// 从字典转为int类型，若转换失败则返回0
+        /// </summary>
+        /// <param name="txt"></param>
+        /// <returns></returns>
         public static int ConvertStrToInt(string txt)
         {
             return 0;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static List<ProductInfo> GetProductAll()
+        {
+            List<ProductInfo> productInfos=new List<ProductInfo>();
+           string path= Path.Combine(appDataPath,"ProductList.txt");
+           StreamReader streamReader= GetConfig.CSV_R_W(false, path, new List<string>());
 
-
+            return productInfos;
+        }
 
         /// <summary>
         /// 判断字段值是否非默认值（即被显式赋值）

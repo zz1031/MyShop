@@ -356,9 +356,9 @@
     </Style>
 
     <!--添加商品页面的文本框-->
-    <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}" >
+    <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}" x:Name="txtbox">
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Text" Value="此处输入内容"/>
+        <!--<Setter Property="Text" Value=""/>-->
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -369,14 +369,42 @@
                                  
                               BorderThickness="2,2,2,2"
                               CornerRadius="10,10,10,10">
-                        <ScrollViewer x:Name="PART_ContentHost" 
-                                        Margin="2"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left" />
+                        <Grid>
+                       
+                        <TextBlock x:Name="Watermark"
+                                   Text="请输入内容"
+                                   Foreground="Gray"
+                                   Margin="20,0,0,0"
+                                   VerticalAlignment="Center"
+                                   IsHitTestVisible="False"
+                                   Visibility="Collapsed"/>
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                            Margin="2"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                             />
+                        </Grid>
                     </Border>
+
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="False"/>
+                                <Condition Property="Text" Value=""/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Watermark" Property="Visibility" Value="Visible"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
+        <!--<Style.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Text" Value=""/>
+            </Trigger>
+            </Style.Triggers>-->
     </Style>
 
     <!-- 带清空按钮的 TextBox 模板 -->

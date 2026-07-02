@@ -22,7 +22,7 @@ namespace MyShop.ShopData
 
     public class GetConfig
     {
-        static  string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        
         /// <summary>
         /// ini文件读写方法
         /// </summary>
@@ -39,9 +39,9 @@ namespace MyShop.ShopData
             {
 
 
-                if (!fileName.Contains(AppDomain.CurrentDomain.BaseDirectory))
+                if (!fileName.Contains(ProductData.appDataPath))
                 {
-                    fileName = Path.Combine(appDataPath, fileName);
+                    fileName = Path.Combine(ProductData.appDataPath, fileName);
                 }
                 // 1. 读取INI文件
                 var parser = new FileIniDataParser();
@@ -96,9 +96,9 @@ namespace MyShop.ShopData
         public static void XML_R_W(bool IsWrite, string fileName, string sectionName = null, string key = null, string value = null)
         {
             ////写xml
-            if (!fileName.Contains(AppDomain.CurrentDomain.BaseDirectory))
+            if (!fileName.Contains(ProductData.appDataPath))
             {
-                fileName = Path.Combine(appDataPath, fileName);
+                fileName = Path.Combine(ProductData.appDataPath, fileName);
             }
             XmlInfo xmlInfo1 = new XmlInfo()
             {
@@ -141,19 +141,30 @@ namespace MyShop.ShopData
         }
         public static StreamReader CSV_R_W(bool IsWrite, string fileName, List<string> strs)
         {
+            if (!Directory.Exists(ProductData.appDataPath))
+            {
+                Directory.CreateDirectory(ProductData.appDataPath);
+            }
             StreamReader sr;
+            try
+            {
+
             if (!fileName.Contains(".csv"))
             {
                 fileName += ".csv";
             }
             ////写csv
-            if (!fileName.Contains(appDataPath))
+            if (!fileName.Contains(ProductData.appDataPath))
             {
-                fileName = Path.Combine(appDataPath, fileName);
+                fileName = Path.Combine(ProductData.appDataPath, fileName);
             }
 
             if (!IsWrite)
             {
+                if (!File.Exists(fileName))
+                {
+                    File.Create(fileName);
+                }
                 using ( sr = new StreamReader(fileName))
                 {
                     return sr;
@@ -162,9 +173,9 @@ namespace MyShop.ShopData
             else
             {
 
-               
-                
-                using (StreamWriter sw = new StreamWriter(fileName, true))
+
+                    //var gbk = Encoding.GetEncoding("GB2312");
+                    using (StreamWriter sw = new StreamWriter(fileName, true, Encoding.UTF8))
                 {
                     
                     for (int i = 0; i < strs.Count; i++)
@@ -174,8 +185,14 @@ namespace MyShop.ShopData
                 }
                 return  StreamReader.Null;
             }
+
+            }
+            catch (Exception)
+            {
+                return StreamReader.Null;
+            }
            
-            
+
         }
         public static void EXCEL_R_W(bool IsWrite, string fileName, string sectionName = null, string key = null, string value = null)
         {

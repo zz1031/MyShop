@@ -24,6 +24,8 @@ namespace MyShop.Myxaml
         public AddProductWindow()
         {
             InitializeComponent();
+
+           ProductData.GetProductAll();
         }
 
         private void AddProductWindow_Save(object sender, ExecutedRoutedEventArgs e)
@@ -48,7 +50,7 @@ namespace MyShop.Myxaml
                     //ProductionDate = DateTime.Now.AddDays(-30),
                     //ExpirationDate = DateTime.Now.AddDays(335)
                 };
-                GetConfig.CSV_R_W(true,"myTestSave",ProductData.ConvertToStrList(product,true));
+                GetConfig.CSV_R_W(true,"myTestSave",ProductData.ConvertToStrList(product,false));
 
                 MessageBox.Show("保存成功");
             }
