@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using MyShop.Myxaml;
 using MyShop.ShopData;
 using MySql.Data.MySqlClient;
+using OfficeOpenXml;
 
 namespace MyShop
 {
@@ -34,6 +35,7 @@ namespace MyShop
         public ObservableCollection<Product> ProductList { get; set; }
         public MainWindow()
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             InitializeComponent();
             ProductList = new ObservableCollection<Product>();
             DataContext = this;

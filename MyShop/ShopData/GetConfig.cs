@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -13,8 +14,9 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using IniParser;
 using IniParser.Model;
-using System.Data;
+using MySqlX.XDevAPI.Relational;
 using OfficeOpenXml;
+using static MyShop.ShopData.ToExcel;
 
 
 namespace MyShop.ShopData
@@ -22,7 +24,7 @@ namespace MyShop.ShopData
 
     public class GetConfig
     {
-        
+
         /// <summary>
         /// ini文件读写方法
         /// </summary>
@@ -48,7 +50,7 @@ namespace MyShop.ShopData
                 IniData data = parser.ReadFile(fileName);
                 if (!IsWrite)
                 {
-                    if (sectionName==null||key==null)
+                    if (sectionName == null || key == null)
                     {
                         result = "INI_R_W error:";
                         MessageBox.Show(result + "输入键为空");
@@ -57,7 +59,7 @@ namespace MyShop.ShopData
                     {
                         // 2. 获取配置值
                         value = data[sectionName][key];
-                        
+
                         result = value;
                         if (value == null)
                         {
@@ -67,11 +69,11 @@ namespace MyShop.ShopData
                 }
                 else
                 {
-                    if (key==null)
+                    if (key == null)
                     {
                         data.Sections.RemoveSection(sectionName);
                     }
-                    else if(value==null)
+                    else if (value == null)
                     {
                         data[sectionName].RemoveKey(key);
                     }
@@ -80,7 +82,7 @@ namespace MyShop.ShopData
                         // 3. 修改或新增配置
                         data[sectionName][key] = value;
                     }
-                     
+
                     // 4. 保存回文件
                     parser.WriteFile(fileName, data);
                 }
@@ -149,54 +151,71 @@ namespace MyShop.ShopData
             try
             {
 
-            if (!fileName.Contains(".csv"))
-            {
-                fileName += ".csv";
-            }
-            ////写csv
-            if (!fileName.Contains(ProductData.appDataPath))
-            {
-                fileName = Path.Combine(ProductData.appDataPath, fileName);
-            }
+                if (!fileName.Contains(".csv"))
+                {
+                    fileName += ".csv";
+                }
+                ////写csv
+                if (!fileName.Contains(ProductData.appDataPath))
+                {
+                    fileName = Path.Combine(ProductData.appDataPath, fileName);
+                }
 
-            if (!IsWrite)
-            {
-                if (!File.Exists(fileName))
+                if (!IsWrite)
                 {
-                    File.Create(fileName);
+                    if (!File.Exists(fileName))
+                    {
+                        File.Create(fileName);
+                    }
+                    using (sr = new StreamReader(fileName))
+                    {
+                        return sr;
+                    }
                 }
-                using ( sr = new StreamReader(fileName))
+                else
                 {
-                    return sr;
-                }
-            }
-            else
-            {
 
 
                     //var gbk = Encoding.GetEncoding("GB2312");
-                    using (StreamWriter sw = new StreamWriter(fileName, true, Encoding.UTF8))
-                {
-                    
-                    for (int i = 0; i < strs.Count; i++)
+                    using (StreamWriter sw = new StreamWriter(fileName, true, new UTF8Encoding(true)))
                     {
-                        sw.WriteLine(strs[i]);
+
+                        for (int i = 0; i < strs.Count; i++)
+                        {
+                            sw.WriteLine(strs[i]);
+                        }
                     }
+                    return StreamReader.Null;
                 }
-                return  StreamReader.Null;
-            }
 
             }
             catch (Exception)
             {
                 return StreamReader.Null;
             }
-           
+
 
         }
-        public static void EXCEL_R_W(bool IsWrite, string fileName, string sectionName = null, string key = null, string value = null)
+        public static void EXCEL_R_W(bool IsWrite, string fileName, List<string> strs)
         {
-            ToExcel.GetDataFromCsv("");
+            if (!Directory.Exists(ProductData.appDataPath))
+            {
+                Directory.CreateDirectory(ProductData.appDataPath);
+            }
+            if (!fileName.Contains(".xlsx"))
+            {
+                fileName += ".xlsx";
+            }
+            ////写csv
+            if (!fileName.Contains(ProductData.appDataPath))
+            {
+                fileName = Path.Combine(ProductData.appDataPath, fileName);
+            }
+            if (true)
+            {
+                ToExcel.InsertDataToExcel(fileName, strs);
+            }
+            //ToExcel.GetDataFromCsv("");
         }
     }
 
@@ -657,7 +676,54 @@ namespace MyShop.ShopData
 
         }
 
+        public static void InsertDataToExcel(string FileFullName, List<string> dataInfosAll)
+        {
+            if (!File.Exists(FileFullName))
+            {
+                File.Create(FileFullName);
+            }
 
+            // 创建或加载目标文件
+            using (var package = new ExcelPackage(new FileInfo(FileFullName)))
+            {
+                // 如果目标文件是新建的，确保有工作表
+                if (package.Workbook.Worksheets.Count == 0)
+                {
+                    package.Workbook.Worksheets.Add("Sheet1");
+                }
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+
+                #region 111
+
+               
+
+                // 获取当前已使用的最后一行索引
+                int lastRow = worksheet.Dimension?.End.Row ?? 0; // 如果工作表为空，Dimension 为 null，则返回 0
+
+                // 从下一行开始追加数据（假设数据从第 1 列开始）
+                int startRow = lastRow + 1;
+
+               
+                    // 将每个字符串按分隔符拆分为 object[]，并组装成 List<object[]>
+                    List<object[]> rows = dataInfosAll
+                        .Select(line => line.Split(',').Cast<object>().ToArray())
+                        .ToList();
+
+                    // 从下一行开始批量插入
+                    worksheet.Cells[lastRow + 1, 1].LoadFromArrays(rows);
+                    // 从下一行开始加载数据
+
+                    // 可选：调整列宽
+                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+                
+                #endregion
+             
+                // 保存目标文件
+                package.Save();
+            }
+
+        }
         #region
         // ==================== 优化的A4纵向打印设置 ====================
         public static void ConfigurePrintSettingsForA4Portrait(ExcelWorksheet worksheet, int startRow = 1, int endRow = 30, int startCol = 1, int endCol = 30, int zoom = 100)

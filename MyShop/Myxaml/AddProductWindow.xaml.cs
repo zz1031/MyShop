@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -50,7 +51,23 @@ namespace MyShop.Myxaml
                     //ProductionDate = DateTime.Now.AddDays(-30),
                     //ExpirationDate = DateTime.Now.AddDays(335)
                 };
-                GetConfig.CSV_R_W(true,"myTestSave",ProductData.ConvertToStrList(product,false));
+
+                string fileName = "商品列表";
+                if (!Directory.Exists(ProductData.appDataPath))
+                {
+                    Directory.CreateDirectory(ProductData.appDataPath);
+                }
+                if (!fileName.Contains(".xlsx"))
+                {
+                    fileName += ".xlsx";
+                }
+                ////写csv
+                if (!fileName.Contains(ProductData.appDataPath))
+                {
+                    fileName =System.IO.Path.Combine(ProductData.appDataPath, fileName);
+                }
+
+                GetConfig.EXCEL_R_W(true, fileName,  ProductData.ConvertToStrList(product, !File.Exists(fileName)));
 
                 MessageBox.Show("保存成功");
             }
