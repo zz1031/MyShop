@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace MyShop.ShopData
 {
@@ -118,6 +119,37 @@ namespace MyShop.ShopData
             return list;
         }
         /// <summary>
+        /// 获取一个ProductInfo结构体的字段描述或名称
+        /// </summary>
+        /// <param name="DescriptionOrName">true输出描述，false输出名称</param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string GetOneProductInfo(bool DescriptionOrName,string name)
+        {
+            var list = "";
+            var fields = typeof(ProductInfo).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var field in fields)
+            {
+                if (DescriptionOrName)
+                {
+                    if (name== field.Name)
+                    {
+                        DescriptionAttribute attr = field.GetCustomAttribute<DescriptionAttribute>();
+                        return attr != null ? attr.Description : field.Name;
+                    }
+                }
+                else
+                {
+                    DescriptionAttribute attr = field.GetCustomAttribute<DescriptionAttribute>();
+                    if (name == attr.Description)
+                    {
+                        return  field.Name;
+                    }
+                }
+            }
+            return list;
+        }
+        /// <summary>
         /// 将ProductInfo列表转换为字符串列表，每个字段用逗号分隔
         /// </summary>
         /// <param name="productInfos">信息列表</param>
@@ -198,6 +230,18 @@ namespace MyShop.ShopData
             return productInfos;
         }
 
+        public static List<ProductInfo> GetProductFromCsv(string fullName)
+        {
+            if (!fullName.Contains(appDataPath))
+            {
+                fullName=Path.Combine(appDataPath, fullName);
+            }
+            List<ProductInfo> productInfos = new List<ProductInfo>();
+            productInfos = GetConfig.EXCEL_R_W(false, fullName, new List<string>());
+
+            return productInfos;
+
+        }
         /// <summary>
         /// 判断字段值是否非默认值（即被显式赋值）
         /// </summary>

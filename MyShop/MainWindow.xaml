@@ -24,7 +24,8 @@
 
     </Window.CommandBindings>
 
-    <TabControl  TabStripPlacement="Left" Background="{StaticResource backColor_Transparent}" Margin="-2,0,0,0">
+    <TabControl  TabStripPlacement="Left" Background="{StaticResource backColor_Transparent}" Margin="-2,0,0,0"
+                 x:Name="MainTabControl" SelectionChanged="TabControl_SelectionChanged">
 
 
         <TabItem Header="收银" Style="{StaticResource LabelStyle_main}">
@@ -235,7 +236,9 @@
         <TabItem Header="订单" Style="{StaticResource LabelStyle_main}">
             <Grid Background="#FFE5E5E5"/>
         </TabItem>
-        <TabItem Header="商品" Style="{StaticResource LabelStyle_main}">
+        <TabItem Header="商品" Style="{StaticResource LabelStyle_main}" >
+            
+            
             <Grid   Style="{StaticResource GridStyle_main}">
                 <Grid>
                     <TabControl TabStripPlacement="Top" Background="{StaticResource backColor_Transparent}">
@@ -267,8 +270,16 @@
                                         </Grid>
                                     </Grid>
                                     <Grid Grid.Row="1">
-                                        <ListView ItemsSource="{Binding ProductList}">
-                                            <ListView.View>
+                                        <ListView ItemsSource="{Binding ProductList}" >
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <!-- 禁止鼠标点击选中 -->
+                                                    <Setter Property="IsHitTestVisible" Value="False" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View >
+                                                
+                                                
                                                 <GridView>
                                                     <!-- 图片列（模板列） -->
                                                     <GridViewColumn Header="图片" Width="80">

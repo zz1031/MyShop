@@ -26,7 +26,7 @@ namespace MyShop.Myxaml
         {
             InitializeComponent();
 
-           ProductData.GetProductAll();
+           //ProductData.GetProductAll();
         }
 
         private void AddProductWindow_Save(object sender, ExecutedRoutedEventArgs e)
@@ -42,10 +42,10 @@ namespace MyShop.Myxaml
                     productType = ProductData.ConvertStrToInt( AddProductWindow_txt_type.Text.Trim()),
                     productUnit = ProductData.ConvertStrToInt(AddProductWindow_txt_Unit.Text.Trim()),
                     remark = AddProductWindow_txt_remark.Text.Trim(),
-                    price = decimal.Parse(AddProductWindow_txt_price.Text.Trim()),
-                    price_Vip = decimal.Parse(AddProductWindow_txt_price_Vip.Text.Trim()),
-                    cost = decimal.Parse(AddProductWindow_txt_cost.Text.Trim()),
-                    count = decimal.Parse(AddProductWindow_txt_count.Text.Trim()),
+                    price = AddProductWindow_txt_price.Text==""?0: decimal.Parse(AddProductWindow_txt_price.Text.Trim()),
+                    price_Vip = AddProductWindow_txt_price_Vip.Text == "" ? 0 : decimal.Parse(AddProductWindow_txt_price_Vip.Text.Trim()),
+                    cost = AddProductWindow_txt_cost.Text == "" ? 0 : decimal.Parse(AddProductWindow_txt_cost.Text.Trim()),
+                    count = AddProductWindow_txt_count.Text == "" ? 0 : decimal.Parse(AddProductWindow_txt_count.Text.Trim()),
                     //sn = ,
                     //expiryDays = ,
                     //ProductionDate = DateTime.Now.AddDays(-30),

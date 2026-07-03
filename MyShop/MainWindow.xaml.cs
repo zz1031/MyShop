@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Policy;
@@ -15,11 +16,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+//using System.Windows.Shapes;
 using MyShop.Myxaml;
 using MyShop.ShopData;
 using MySql.Data.MySqlClient;
 using OfficeOpenXml;
+using static MyShop.ShopData.ProductData;
 
 namespace MyShop
 {
@@ -148,8 +150,53 @@ namespace MyShop
             TabControl_ProductCategory.Items.Add(newTab);
         }
         #endregion
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // 获取当前选中的 TabItem
+             var tabControl = sender as TabControl;
+            if (tabControl == null) return;
 
+            var selectedItem = tabControl.SelectedItem as TabItem;
 
+            if (selectedItem != null|| selectedItem.IsFocused)
+            {
+                switch (selectedItem.Header.ToString())
+                {
+                    case "收银":
+                        break;
+                    case "商品":
+                        ShowProductList();
+                        break;
+                    case "库存":
+                        break;
+                 
+                }
+            }
+        }
+        private void ShowProductList()
+        {
+
+            List<ProductInfo> productInfos= ProductData.GetProductFromCsv("商品列表.xlsx");
+            ProductList.Clear();
+            foreach (var productInfo in productInfos)
+            {
+                ProductList.Add(new Product
+                {
+                    ImageUrl = productInfo.picPath,  // 图片路径   
+                    Name = productInfo.name,
+                    Price = (double)productInfo.price,
+                    Stock = (int)productInfo.count
+                });
+            }
+            //ProductList.Add(new Product
+            //{
+            //    ImageUrl = "\\Resources\\productPics\\cywl.png",  // 图片路径   
+            //    Name = "示例"+a,
+            //        Price =a,
+            //    Stock = 50-a
+            //});
+        }
+       
 
         private void AddProduct1(object sender, ExecutedRoutedEventArgs e)
         {

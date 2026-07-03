@@ -53,9 +53,9 @@
                 <Label   Grid.Row="1" Grid.Column="2" Content="备注:" FontSize="13" FontWeight="ExtraBlack"/>
                 <TextBox Name="AddProductWindow_txt_name" Grid.Row="0" Grid.Column="0"   Height="45" Margin="10,30,10,0"   Style="{StaticResource TextBoxStyle1}"/>
                 <TextBox Name="AddProductWindow_txt_ItemNum" Grid.Row="0" Grid.Column="1"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
-                <TextBox Name="AddProductWindow_txt_type" Grid.Row="0" Grid.Column="2"   Height="45" Margin="10,20,10,0"  Style="{StaticResource TextBoxStyle1}"/>
+                <TextBox Name="AddProductWindow_txt_type" Grid.Row="0" Grid.Column="2"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
                 <TextBox Name="AddProductWindow_txt_barcode" Grid.Row="1" Grid.Column="0"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
-                <TextBox Name="AddProductWindow_txt_Unit" Grid.Row="1" Grid.Column="1"   Height="45" Margin="10,20,10,0"  Style="{StaticResource TextBoxStyle1}"/>
+                <TextBox Name="AddProductWindow_txt_Unit" Grid.Row="1" Grid.Column="1"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
                 <TextBox Name="AddProductWindow_txt_remark"  Grid.Row="1" Grid.Column="2"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
             </Grid>
         </Grid>

@@ -16,6 +16,7 @@ using IniParser;
 using IniParser.Model;
 using MySqlX.XDevAPI.Relational;
 using OfficeOpenXml;
+using static MyShop.ShopData.ProductData;
 using static MyShop.ShopData.ToExcel;
 
 
@@ -196,8 +197,9 @@ namespace MyShop.ShopData
 
 
         }
-        public static void EXCEL_R_W(bool IsWrite, string fileName, List<string> strs)
+        public static List<ProductInfo> EXCEL_R_W(bool IsWrite, string fileName, List<string> strs)
         {
+            var products = new List<ProductInfo>();
             if (!Directory.Exists(ProductData.appDataPath))
             {
                 Directory.CreateDirectory(ProductData.appDataPath);
@@ -206,14 +208,63 @@ namespace MyShop.ShopData
             {
                 fileName += ".xlsx";
             }
-            ////写csv
-            if (!fileName.Contains(ProductData.appDataPath))
+            if (IsWrite)
             {
-                fileName = Path.Combine(ProductData.appDataPath, fileName);
-            }
-            if (true)
-            {
+                ////写csv
+                if (!fileName.Contains(ProductData.appDataPath))
+                {
+                    fileName = Path.Combine(ProductData.appDataPath, fileName);
+                }
                 ToExcel.InsertDataToExcel(fileName, strs);
+                return null;
+            }
+            else
+            {
+                
+                using (var package = new ExcelPackage(new FileInfo(fileName)))
+                {
+                    // 获取第一个工作表
+                    var worksheet = package.Workbook.Worksheets[0];
+
+                    // 获取总行数（包括表头）
+                    int rowCount = worksheet.Dimension?.Rows ?? 0;
+                    if (rowCount < 2) // 只有表头或空表
+                        return products;
+
+                    // 从第二行开始（跳过表头）
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        try
+                        {
+                            ProductInfo product = new ProductInfo();
+
+                            // 逐列读取，注意列索引从1开始
+                            product.name           = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "name"), row)?.ToString() ?? "";
+                            product.ItemNum        = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "ItemNum"), row)?.ToString() ?? "";
+                            product.barcode        = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "barcode"), row)?.ToString() ?? "";
+                            //product.productType    = (int)GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "productType"), 5);
+                            //product.productUnit    = (int)GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "productUnit"), 5);
+                            product.remark         = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "remark"), row)?.ToString() ?? "";
+                            product.price          = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "price"), row));
+                            product.price_Vip      = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "price_Vip"), row));
+                            product.cost           = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "cost"), row     ));
+                            product.count          = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "count"), row));
+                            product.sn             = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "sn"), row)?.ToString() ?? "";
+                            product.expiryDays     = Convert.ToInt32( GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "expiryDays"), row));
+                            product.ProductionDate = Convert.ToDateTime(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "ProductionDate"), row));
+                            product.ExpirationDate = Convert.ToDateTime(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "ExpirationDate"), row));
+
+                            products.Add(product);
+                        }
+                        catch (Exception ex)
+                        {
+                            // 记录错误行，可以根据需求处理
+                            Console.WriteLine($"读取第 {row} 行出错: {ex.Message}");
+                        }
+                    }
+                }
+
+                return products;
             }
             //ToExcel.GetDataFromCsv("");
         }
@@ -680,9 +731,12 @@ namespace MyShop.ShopData
         {
             if (!File.Exists(FileFullName))
             {
-                File.Create(FileFullName);
-            }
+                using (File.Create(FileFullName))
+                {
 
+                }
+
+            }
             // 创建或加载目标文件
             using (var package = new ExcelPackage(new FileInfo(FileFullName)))
             {
@@ -696,7 +750,7 @@ namespace MyShop.ShopData
 
                 #region 111
 
-               
+
 
                 // 获取当前已使用的最后一行索引
                 int lastRow = worksheet.Dimension?.End.Row ?? 0; // 如果工作表为空，Dimension 为 null，则返回 0
@@ -704,21 +758,21 @@ namespace MyShop.ShopData
                 // 从下一行开始追加数据（假设数据从第 1 列开始）
                 int startRow = lastRow + 1;
 
-               
-                    // 将每个字符串按分隔符拆分为 object[]，并组装成 List<object[]>
-                    List<object[]> rows = dataInfosAll
-                        .Select(line => line.Split(',').Cast<object>().ToArray())
-                        .ToList();
 
-                    // 从下一行开始批量插入
-                    worksheet.Cells[lastRow + 1, 1].LoadFromArrays(rows);
-                    // 从下一行开始加载数据
+                // 将每个字符串按分隔符拆分为 object[]，并组装成 List<object[]>
+                List<object[]> rows = dataInfosAll
+                    .Select(line => line.Split(',').Cast<object>().ToArray())
+                    .ToList();
 
-                    // 可选：调整列宽
-                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
-                
+                // 从下一行开始批量插入
+                worksheet.Cells[lastRow + 1, 1].LoadFromArrays(rows);
+                // 从下一行开始加载数据
+
+                // 可选：调整列宽
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
                 #endregion
-             
+
                 // 保存目标文件
                 package.Save();
             }
@@ -888,7 +942,32 @@ namespace MyShop.ShopData
 
             return columnName;
         }
+        /// <summary>
+        /// 根据第一行的列名称，获取指定行在该列的值（返回 object）
+        /// </summary>
+        public static object GetCellValueByColumnName(ExcelWorksheet worksheet, string columnName, int rowIndex)
+        {
+            // 1. 建立列名 → 列索引映射（第一行）
+            var columnMap = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            int colCount = worksheet.Dimension?.Columns ?? 0;
+            for (int col = 1; col <= colCount; col++)
+            {
+                string header = worksheet.Cells[1, col].Value?.ToString()?.Trim();
+                if (!string.IsNullOrEmpty(header))
+                {
+                    columnMap[header] = col;
+                }
+            }
 
+            // 2. 查找列名是否存在
+            if (!columnMap.TryGetValue(columnName, out int columnIndex))
+            {
+                throw new ArgumentException($"未找到列名 '{columnName}'，请检查第一行表头。");
+            }
+
+            // 3. 返回目标行该列的值
+            return worksheet.Cells[rowIndex, columnIndex].Value;
+        }
 
         #region
         /// <summary>
