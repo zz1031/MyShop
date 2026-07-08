@@ -12,8 +12,7 @@ namespace MyShop.ShopData
 {
     public class ProductData
     {
-        public static Dictionary<int, string> productTypeDict = new Dictionary<int, string>();
-        public static Dictionary<int, string> productUnitDict = new Dictionary<int, string>();
+       
         /// <summary>
         /// 产品清单文件路径
         /// </summary>
@@ -42,11 +41,11 @@ namespace MyShop.ShopData
             /// <summary>
             /// 类别
             /// </summary>
-            [Description("类别")] public int productType;
+            [Description("类别")] public string productType;
             /// <summary>
             /// 产品单位（个/件/斤）
             /// </summary>
-            [Description("产品单位")] public int productUnit;
+            [Description("产品单位")] public string productUnit;
 
             /// <summary>
             /// 备注
@@ -208,15 +207,7 @@ namespace MyShop.ShopData
             
             return list;
         }
-        /// <summary>
-        /// 从字典转为int类型，若转换失败则返回0
-        /// </summary>
-        /// <param name="txt"></param>
-        /// <returns></returns>
-        public static int ConvertStrToInt(string txt)
-        {
-            return 0;
-        }
+       
         /// <summary>
         /// 
         /// </summary>
@@ -242,23 +233,7 @@ namespace MyShop.ShopData
             return productInfos;
 
         }
-        /// <summary>
-        /// 判断字段值是否非默认值（即被显式赋值）
-        /// </summary>
-        private static bool IsFieldAssigned(object value, Type type)
-        {
-            if (type.IsValueType)
-            {
-                // 获取该类型的默认值
-                object defaultValue = Activator.CreateInstance(type);
-                return !value.Equals(defaultValue);
-            }
-            else
-            {
-                // 引用类型：非 null 即为已赋值
-                return value != null;
-            }
-        }
+       
 
     }
 }

@@ -90,8 +90,8 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Label   Grid.Row="0" Grid.Column="0" Content="数量:" FontSize="13" FontWeight="ExtraBlack"/>
-                <TextBox  Name="AddProductWindow_txt_count" Grid.Column="0"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
-
+                <ComboBox  Name="AddProductWindow_txt_count" Grid.Column="0"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
+               
             </Grid>
         </Grid>
         <Grid Grid.Row="5" Background="{StaticResource backColor11}"/>

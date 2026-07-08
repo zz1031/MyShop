@@ -241,9 +241,9 @@
             
             <Grid   Style="{StaticResource GridStyle_main}">
                 <Grid>
-                    <TabControl TabStripPlacement="Top" Background="{StaticResource backColor_Transparent}">
+                    <TabControl Name="shopList" TabStripPlacement="Top" Background="{StaticResource backColor_Transparent}">
 
-                        <TabItem Header="列表" Style="{StaticResource  LabelStyle_ShangPing}" >
+                        <TabItem  Header="列表" Style="{StaticResource  LabelStyle_ShangPing}" >
                             <Grid>
 
                                 <Grid Grid.Row="2" >

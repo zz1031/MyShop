@@ -355,7 +355,8 @@
     </Style>
 
     <!--添加商品页面的文本框-->
-    <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}" x:Name="txtbox">
+    <Style x:Key="TextBoxStyle1" TargetType="{x:Type ComboBox}" x:Name="txtbox">
+        <Setter Property="IsEditable" Value="True"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <!--<Setter Property="Text" Value=""/>-->
         <Setter Property="BorderThickness" Value="2"/>

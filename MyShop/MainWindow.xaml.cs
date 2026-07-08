@@ -81,8 +81,8 @@ namespace MyShop
                         picPath = "path/to/pic1.png",
                         ItemNum = "001",
                         barcode = "1234567890123",
-                        productType = 1,
-                        productUnit = 1,
+                        productType = "1",
+                        productUnit = "1",
                         remark = "这是商品1的备注",
                         price = 10.99m,
                         price_Vip = 9.99m,
@@ -99,8 +99,8 @@ namespace MyShop
                         picPath = "path/to/pic2.png",
                         ItemNum = "002",
                         barcode = "9876543210987",
-                        productType = 2,
-                        productUnit = 2,
+                        productType = "2",
+                        productUnit = "2",
                         remark = "这是商品2的备注",
                         price = 20.99m,
                         price_Vip = 19.99m,
@@ -155,9 +155,10 @@ namespace MyShop
             // 获取当前选中的 TabItem
              var tabControl = sender as TabControl;
             if (tabControl == null) return;
-
+            
             var selectedItem = tabControl.SelectedItem as TabItem;
-
+           
+         
             if (selectedItem != null|| selectedItem.IsFocused)
             {
                 switch (selectedItem.Header.ToString())
@@ -165,7 +166,21 @@ namespace MyShop
                     case "收银":
                         break;
                     case "商品":
-                        ShowProductList();
+                        //var aaa = System.Windows.Media.VisualTreeHelper..GetChild(selectedItem, 0);
+                        var item = shopList.SelectedItem as TabItem;
+                        if (item!=null)
+                        {
+                            if (item.Header.ToString() == "列表")
+                            {
+                                ShowProductList();
+                            }
+                        }
+                       
+                        else
+                        {
+                            ShowProductList();
+                        }
+                          
                         break;
                     case "库存":
                         break;
