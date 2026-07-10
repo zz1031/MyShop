@@ -79,16 +79,12 @@ namespace MyShop
                     {
                         name = "商品1",
                         picPath = "path/to/pic1.png",
-                        ItemNum = "001",
                         barcode = "1234567890123",
-                        productType = "1",
                         productUnit = "1",
                         remark = "这是商品1的备注",
                         price = 10.99m,
-                        price_Vip = 9.99m,
+                        priceVip = 9.99m,
                         cost = 5.00m,
-                        count = 100,
-                        sn = "SN001",
                         expiryDays = 365,
                         ProductionDate = DateTime.Now.AddDays(-30),
                         ExpirationDate = DateTime.Now.AddDays(335)
@@ -97,16 +93,12 @@ namespace MyShop
                     {
                         name = "商品2",
                         picPath = "path/to/pic2.png",
-                        ItemNum = "002",
                         barcode = "9876543210987",
-                        productType = "2",
                         productUnit = "2",
                         remark = "这是商品2的备注",
                         price = 20.99m,
-                        price_Vip = 19.99m,
+                        priceVip = 19.99m,
                         cost = 10.00m,
-                        count = 50,
-                        sn = "SN002",
                         expiryDays = 180,
                         ProductionDate = DateTime.Now.AddDays(-60),
                         ExpirationDate = DateTime.Now.AddDays(120)
@@ -200,7 +192,7 @@ namespace MyShop
                     ImageUrl = productInfo.picPath,  // 图片路径   
                     Name = productInfo.name,
                     Price = (double)productInfo.price,
-                    Stock = (int)productInfo.count
+                    //Stock = (int)productInfo.count
                 });
             }
             //ProductList.Add(new Product

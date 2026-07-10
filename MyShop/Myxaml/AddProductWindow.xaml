@@ -51,7 +51,7 @@
                 <Label   Grid.Row="1" Grid.Column="0" Content="条码:" FontSize="13" FontWeight="ExtraBlack"/>
                 <Label   Grid.Row="1" Grid.Column="1" Content="单位:" FontSize="13" FontWeight="ExtraBlack"/>
                 <Label   Grid.Row="1" Grid.Column="2" Content="备注:" FontSize="13" FontWeight="ExtraBlack"/>
-                <TextBox Name="AddProductWindow_txt_name" Grid.Row="0" Grid.Column="0"   Height="45" Margin="10,30,10,0"   Style="{StaticResource TextBoxStyle1}"/>
+                <ComboBox Name="AddProductWindow_txt_name" Grid.Row="0" Grid.Column="0"   Height="45" Margin="10,30,10,0"   IsEditable="True"/>
                 <TextBox Name="AddProductWindow_txt_ItemNum" Grid.Row="0" Grid.Column="1"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
                 <TextBox Name="AddProductWindow_txt_type" Grid.Row="0" Grid.Column="2"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
                 <TextBox Name="AddProductWindow_txt_barcode" Grid.Row="1" Grid.Column="0"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
@@ -90,7 +90,7 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Label   Grid.Row="0" Grid.Column="0" Content="数量:" FontSize="13" FontWeight="ExtraBlack"/>
-                <ComboBox  Name="AddProductWindow_txt_count" Grid.Column="0"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
+                <TextBox  Name="AddProductWindow_txt_count" Grid.Column="0"   Height="45" Margin="10,30,10,0"  Style="{StaticResource TextBoxStyle1}"/>
                
             </Grid>
         </Grid>

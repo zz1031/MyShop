@@ -117,6 +117,9 @@
     <Compile Include="Myxaml\AddProductWindow.xaml.cs">
       <DependentUpon>AddProductWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Myxaml\AddProductWindow_New.xaml.cs">
+      <DependentUpon>AddProductWindow_New.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShopData\GetConfig.cs" />
     <Compile Include="ShopData\MySqlCtrl.cs" />
     <Compile Include="ShopData\ProductData.cs" />
@@ -139,6 +142,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Myxaml\AddProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Myxaml\AddProductWindow_New.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

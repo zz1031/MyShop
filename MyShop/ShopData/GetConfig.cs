@@ -240,16 +240,16 @@ namespace MyShop.ShopData
 
                             // 逐列读取，注意列索引从1开始
                             product.name           = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "name"), row)?.ToString() ?? "";
-                            product.ItemNum        = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "ItemNum"), row)?.ToString() ?? "";
+                            //product.ItemNum        = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "ItemNum"), row)?.ToString() ?? "";
                             product.barcode        = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "barcode"), row)?.ToString() ?? "";
                             //product.productType    = (int)GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "productType"), 5);
                             //product.productUnit    = (int)GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "productUnit"), 5);
                             product.remark         = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "remark"), row)?.ToString() ?? "";
                             product.price          = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "price"), row));
-                            product.price_Vip      = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "price_Vip"), row));
+                            product.priceVip      = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "price_Vip"), row));
                             product.cost           = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "cost"), row     ));
-                            product.count          = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "count"), row));
-                            product.sn             = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "sn"), row)?.ToString() ?? "";
+                            //product.count          = Convert.ToDecimal(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "count"), row));
+                            //product.sn             = GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "sn"), row)?.ToString() ?? "";
                             product.expiryDays     = Convert.ToInt32( GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "expiryDays"), row));
                             product.ProductionDate = Convert.ToDateTime(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "ProductionDate"), row));
                             product.ExpirationDate = Convert.ToDateTime(GetCellValueByColumnName(worksheet, GetOneProductInfo(true, "ExpirationDate"), row));
